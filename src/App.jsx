@@ -3,41 +3,19 @@ import "./App.css";
 import Item from "./Item";
 
 function App() {
-    const pageLength = 50;
     const [data, setData] = useState([]);
-    const [page, setPage] = useState(1);
 
     useEffect(() => {
-        async function action() {
-            let res = await fetch(
-                `https://api.zeroone.art/api/feed/recent/${page}/${pageLength}`
-            );
-            let result = await res.json();
-            result = result.filter(
-                (e) => parseInt(e.Editions) - e.CreatorEditions - e.minted > 0
-            );
-            setData((current) => [...current, ...result]);
+        function action() {
+          console.log('calling api')
+            fetch(`https://api.zeroone.art/api/feed/recent/1/4`)
+                .then((result) => result.json())
+                .then((result) => setData(result));
         }
-
-        action().catch(console.error);
-    }, [page]);
-
-    const handleScroll = (e) => {
-        const bottom =
-            Math.ceil(window.innerHeight + window.scrollY) >=
-            document.documentElement.scrollHeight;
-        if (bottom) {
-            setPage((current) => current + 1);
-        }
-    };
-
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll, {
-            passive: true,
-        });
-
+        action();
+        const interval = setInterval(() => action(), 10000);
         return () => {
-            window.removeEventListener("scroll", handleScroll);
+            clearInterval(interval);
         };
     }, []);
 
