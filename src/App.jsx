@@ -27,7 +27,7 @@ function App() {
             Math.ceil(window.innerHeight + window.scrollY) >=
             document.documentElement.scrollHeight;
         if (bottom) {
-            setPage((current) => current + pageLength);
+            setPage((current) => current + 1);
         }
     };
 
