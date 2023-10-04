@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Item from "./Item";
 
-function Feed() {
+function Feed({ soldout = false }) {
     const pageLength = 50;
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
@@ -13,9 +13,18 @@ function Feed() {
                 `https://api.zeroone.art/api/feed/recent/${page}/${pageLength}`
             );
             let result = await res.json();
-            result = result.filter(
-                (e) => parseInt(e.Editions) - e.CreatorEditions - e.minted > 0
-            );
+            if (soldout) {
+                result = result.filter(
+                    (e) =>
+                        parseInt(e.Editions) - e.CreatorEditions - e.minted <= 0
+                );
+            } else {
+                result = result.filter(
+                    (e) =>
+                        parseInt(e.Editions) - e.CreatorEditions - e.minted > 0
+                );
+            }
+
             setData((current) => [...current, ...result]);
         }
 
