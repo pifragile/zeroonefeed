@@ -3,25 +3,37 @@ import { useEffect, useState } from "react";
 function Artworks() {
     const [numArtworks, setNumArtworks] = useState({});
 
+    async function resolveObject(obj) {
+        return Object.fromEntries(
+            await Promise.all(
+                Object.entries(obj).map(async ([k, v]) => [k, await v])
+            )
+        );
+    }
+
     useEffect(() => {
+        async function getCount(start, end) {
+            const query = `https://api.zeroone.art/api/artworks?filters[createdAt][$gte]=${start.toISOString()}&filters[createdAt][$lt]=${end.toISOString()}&pagination[pageSize]=250`;
+            let res = await fetch(query);
+            let result = await res.json();
+            let total = result.meta.pagination.total;
+            return total;
+        }
         async function action() {
-            let count = {};
-            let d = new Date();
-            d.setDate(d.getDate() + 1);
+            let counts = {};
             for (let i = 0; i < 16; i++) {
-                d.setDate(d.getDate() - 1);
+                let d = new Date();
+                d.setDate(d.getDate() - i);
                 let start = new Date(d);
                 let end = new Date(d);
                 start.setUTCHours(0, 0, 0, 0);
                 end.setUTCHours(23, 59, 59, 999);
-                const query = `https://api.zeroone.art/api/artworks?filters[createdAt][$gte]=${start.toISOString()}&filters[createdAt][$lt]=${end.toISOString()}&pagination[pageSize]=250`;
-                let res = await fetch(query);
-                let result = await res.json();
-                let total = result.meta.pagination.total;
-                let dateString = start.toISOString().split("T")[0];
-                count[dateString] = total;
+                counts[start.toISOString().split("T")[0]] = getCount(
+                    start,
+                    end
+                );
             }
-            setNumArtworks(count);
+            setNumArtworks(await resolveObject(counts));
         }
 
         action().catch(console.error);
@@ -40,7 +52,7 @@ function Artworks() {
             </thead>
             <tbody>
                 {Object.entries(numArtworks).map(([date, num]) => (
-                    <tr>
+                    <tr key={date}>
                         <td>{date}</td>
                         <td>{num}</td>
                     </tr>

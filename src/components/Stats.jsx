@@ -40,7 +40,7 @@ function Stats() {
                         </thead>
                         <tbody>
                             {topFollowed.map((u) => (
-                                <tr>
+                                <tr key={u.Username}>
                                     <td>
                                         <a
                                             href={`https://zeroone.art/profile/${u.Username}`}
@@ -65,7 +65,7 @@ function Stats() {
                         </thead>
                         <tbody>
                             {topCollected.map((u) => (
-                                <tr>
+                                <tr key={u.Username}>
                                     <td>
                                         <a
                                             href={`https://zeroone.art/profile/${u.Username}`}
