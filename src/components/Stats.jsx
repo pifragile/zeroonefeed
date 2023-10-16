@@ -80,6 +80,7 @@ function Stats() {
                     </table>
                     <Artworks/>
                 </div>
+                <p>created by piero (pifragile) | <a href="https://zeroone.art/profile/pifragile">zeroone</a> | <a href="https://twitter.com/pifragile">twitter</a> |</p>
             </div>
         );
     }
