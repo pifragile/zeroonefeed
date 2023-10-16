@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import Item from "./Item";
 
 function Feed({ soldout = false }) {

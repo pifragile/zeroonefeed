@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import "./App.css";
-import Item from "./Item";
+import Item from "./components/Item";
 
 function App() {
     const [data, setData] = useState([]);
@@ -25,6 +24,8 @@ function App() {
                 style={{
                     display: "flex",
                     flexWrap: "wrap",
+                    placeItems: "center",
+                    minHeight: "100vh"
                 }}
             >
                 {data.map((e) => (

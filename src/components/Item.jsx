@@ -1,5 +1,3 @@
-import "./App.css";
-
 function Item({ imgUrl, url, type, title }) {
     return (
         <div style={{ margin: "1vw" }}>
