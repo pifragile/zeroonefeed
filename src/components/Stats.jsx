@@ -24,6 +24,11 @@ function Stats() {
             (a, b) => b.num_collected_by_others - a.num_collected_by_others
         );
         const topCollected = users.slice(0, 16);
+
+        users.sort(
+            (a, b) => b.num_collected - a.num_collected
+        );
+        const topCollectors = users.slice(0, 16);
         return (
             <div>
                 <p>user data is upated once per day</p>
@@ -74,6 +79,32 @@ function Stats() {
                                         </a>
                                     </td>
                                     <td>{u.num_collected_by_others}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <h3>collectors</h3>
+                            </tr>
+                            <tr>
+                                <th>user</th>
+                                <th>artworks collected</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {topCollectors.map((u) => (
+                                <tr key={u.Username}>
+                                    <td>
+                                        <a
+                                            href={`https://zeroone.art/profile/${u.Username}`}
+                                        >
+                                            {u.Username}
+                                        </a>
+                                    </td>
+                                    <td>{u.num_collected}</td>
                                 </tr>
                             ))}
                         </tbody>
