@@ -12,6 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/" element={<App />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/soldout" element={<Feed soldout={true} />} />
+            <Route path="/shuffle" element={<Feed shuffle={true} />} />
             <Route path="/stats" element={<Stats />} />
         </Routes>
     </BrowserRouter>
